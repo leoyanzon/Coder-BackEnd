@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import dotenv from 'dotenv'
 
 import productsModel from '../../models/productsMongoose.model.js';
 
@@ -9,7 +10,10 @@ class ProductsClass{
 
     async createConnection(){
         try{
-            const URL = "mongodb://localhost:27017/ecommerce"
+            const mongodb_URL = process.env.MONGODB_URL;
+            const mongodb_db = process.env.MONGODB_DB;
+            const URL = `${mongodb_URL}${mongodb_db}`;
+            console.log(URL)
             await mongoose.connect(URL, {
                 useNewUrlParser: true,
                 useUnifiedTopology: true
@@ -23,7 +27,7 @@ class ProductsClass{
 
     async getAllProducts(){
         try{
-            const readDocuments = await productsModel.find({}, {nombre:1}).exec();
+            const readDocuments = await productsModel.find();
             console.log(readDocuments);
             return ({
                 success: true,

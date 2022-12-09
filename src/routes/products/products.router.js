@@ -12,7 +12,7 @@ router.get("/", async (_req, res, next) => {
     try{
         const products = await getProductModule();
         const product = new products();
-        const data = await products.getAllProducts();
+        const data = await product.getAllProducts();
         if(!data.success) res.status(500).json(data)
         res.status(200).json(data);
     } catch {
@@ -28,7 +28,6 @@ router.post("/", authMiddleware, async (req, res, next) => {
             uuid: uuidv4(),
             timestamp: Date.now()
         });
-        console.log("post data")
         const products = await getProductModule();
         const product = new products();
 
