@@ -1,10 +1,10 @@
-const express = require("express");
-const _ = require("lodash");
-const { v4: uuidv4 } = require("uuid");
+import express from "express";
+import _ from "lodash";
+import { v4 as uuidv4 } from  "uuid";
 
 const router = express.Router();
 
-const CartClass = require("../../services/carts/cart.service");
+import CartClass from "../../services/carts/cart.service.js";
 const carts = new CartClass();
 
 router.get("/", async (_req, res, next) => {
@@ -72,4 +72,4 @@ router.delete("/:cartUuid/productos/:productUuid", async (req, res, next) =>{
 })
 
 
-module.exports = router;
+export default router;

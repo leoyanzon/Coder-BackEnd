@@ -1,15 +1,17 @@
-const express = require("express");
-const _ = require("lodash");
-const { v4: uuidv4 } = require("uuid");
-const authMiddleware = require("../../middlewares/authMiddleware");
+import express from "express";
+import _ from "lodash";
+import { v4 as uuidv4 } from "uuid";
+import authMiddleware from "../../middlewares/authMiddleware.js";
 
 const router = express.Router();
 
-const ProductsClass = require("../../services/products/products.service");
-const products = new ProductsClass();
+//import ProductsClass from "../../services/products/products.service.js";
+import { productService, getProductModule }from '../../daos/index.js';
 
 router.get("/", async (_req, res, next) => {
     try{
+        const products = await getProductModule();
+        const product = new products();
         const data = await products.getAllProducts();
         if(!data.success) res.status(500).json(data)
         res.status(200).json(data);
@@ -26,7 +28,12 @@ router.post("/", authMiddleware, async (req, res, next) => {
             uuid: uuidv4(),
             timestamp: Date.now()
         });
-        const data = await products.createProduct(body);
+        console.log("post data")
+        const products = await getProductModule();
+        const product = new products();
+
+        const data = await product.createProduct(body);
+        console.log("datapost",data)
         if(!data.success) res.status(500).json(data)
         res.status(200).json(data);
     } catch(err) {
@@ -74,4 +81,4 @@ router.delete("/:productUuid", authMiddleware ,async (req, res, next) =>{
     }
 })
 
-module.exports = router;
+export default router;

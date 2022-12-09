@@ -1,14 +1,16 @@
-const express = require("express");   //Necesario para express
-const { Server: HttpServer } = require("http");
-const { Server: IoServer } = require("socket.io")
-require('dotenv').config(); //Declaración para uso de .env
+import express from 'express';   //Necesario para express
+import { Server as HttpServer } from "http";
+import { Server as IoServer } from "socket.io";
+import dotenv from 'dotenv'
+dotenv.config(); //Declaración para uso de .env
 
-const _=require("lodash");  //Declaración para usar librería de chequeo de entradas
-var morgan = require('morgan');
 
-const indexRouter = require("./src/routes/index"); //Declaración para uso de index.html
-const errorMiddleware = require("./src/middlewares/errorMiddleware"); //Declaración de middleware
-const authMiddleware = require("./src/middlewares/authMiddleware");
+import _ from "lodash";  //Declaración para usar librería de chequeo de entradas
+import morgan from 'morgan';
+
+import indexRouter from "./src/routes/index.js"; //Declaración para uso de index.html
+import errorMiddleware from "./src/middlewares/errorMiddleware.js"; //Declaración de middleware
+import authMiddleware from "./src/middlewares/authMiddleware.js";
 
 //Creación de app
 const app = express();
@@ -22,4 +24,5 @@ app.use("/api", indexRouter);
 app.use(errorMiddleware);
 app.use(authMiddleware);
 
-module.exports = { http };
+export default http;
+

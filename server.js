@@ -1,5 +1,5 @@
 //Express http from app
-const { http } = require("./app");
+import http from "./app.js";
 
 //ENV
 const PORT = process.env.PORT || 8080;

@@ -5,4 +5,4 @@ const errorMiddleware = (err, _req, res, _next) => {
     })
 }
 
-module.exports = errorMiddleware;
+export default errorMiddleware;
