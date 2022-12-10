@@ -43,6 +43,23 @@ class ProductsClass{
 
     }
 
+    async getProduct(uuid){
+        try{
+            const readDocument = await productsModel.findOne({_id : uuid});
+            console.log(readDocument);
+            return ({
+                success: true,
+                data: readDocument
+            });
+        } catch (err){
+            console.error(err);
+            return ({
+                success: false,
+                data: err.message
+            });
+        }
+    }
+
     async createProduct(data){
 
         const productMock = {
@@ -62,6 +79,38 @@ class ProductsClass{
             return ({
                 success: true,
                 data: `Product ${data.uuid} created successfully`
+            });
+        } catch (err){
+            console.error(err);
+            return ({
+                success: false,
+                data: err.message
+            });
+        }
+    }
+
+    async updateProduct(uuid, data){
+        try{
+            const updateDocuments = await productsModel.updateOne({_id: uuid}, {$set: data});
+            return ({
+                success: true,
+                data: `Product ${uuid} updated successfully`
+            });
+        } catch (err){
+            console.error(err);
+            return ({
+                success: false,
+                data: err.message
+            });
+        }
+    }
+
+    async deleteProduct(uuid){
+        try{
+            const deleteDocument = await productsModel.deleteOne({_id: uuid})
+            return ({
+                success: true,
+                data: `Product ${uuid} deleted successfully`
             });
         } catch (err){
             console.error(err);
