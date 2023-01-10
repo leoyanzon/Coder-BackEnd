@@ -6,7 +6,9 @@ const cookieParser = require('cookie-parser');
 
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
-app.use(cookieParser());
+
+const COOKIES_SECRET = process.env.COOKIES_SECRET || '';
+app.use(cookieParser(COOKIES_SECRET));
 
 app.use("/api", indexRouter);
 
