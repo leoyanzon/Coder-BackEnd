@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const cookiesRouter = require('./cookies/cookies.routes');
+const sessionRouter = require('./session/session.routes');
 
 
 router.get("/health", async(_req, res)=>{
@@ -11,6 +12,7 @@ router.get("/health", async(_req, res)=>{
         environment: process.env.environment || "not found"
     })
 })
-.use('/cookies', cookiesRouter);
+router.use('/cookies', cookiesRouter);
+router.use('/session', sessionRouter);
 
 module.exports = router;
