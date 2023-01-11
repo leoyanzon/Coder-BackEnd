@@ -15,8 +15,8 @@ router.post('/setCookie', (req, res)=>{
             message: 'Bad cookie time format'
         })
     }
-    config['maxAge'] = ParseInt(time/1000);
-    res.cookie(name, value, config).send(`Cookie ${name} set with expiration in ${maxAge}sec`)
+    Object.assign(config, { maxAge:parseInt(time*1000) });
+    res.cookie(name, value, config).send(`Cookie ${name} set with expiration in ${ time } sec`)
 });
 
 router.get('/getCookies', (req, res)=>{

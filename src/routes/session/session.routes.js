@@ -1,8 +1,14 @@
 const express = require('express');
 const router = express.Router();
 const statusCode = require('http-status');
+require('dotenv').config();
+const path=require('path');
+
+let oneStepBack=path.join(__dirname,'../', '../', '../public');
 
 const authMiddleware = require('../../middlewares/auth.middleware');
+
+router.use(express.static('public'))
 
 router.get('/', authMiddleware, (req, res) => {
     if(!req.session.contador){
@@ -13,8 +19,8 @@ router.get('/', authMiddleware, (req, res) => {
 })
 
 router.post('/signin', (req, res) => {
-    const USERNAME = 'rupert';
-    const PASSWORD = '123456';
+    const USER = process.env.USER;
+    const PASSWORD = process.env.PASSWORD;
     const { username , password } = req.body;
     if (!username || !password){
         return res.status(400).json({
@@ -22,7 +28,7 @@ router.post('/signin', (req, res) => {
             message: `${statusCode[400]}, username or password missing`
         })
     }
-    if (username != USERNAME || password != PASSWORD ){
+    if (username != USER || password != PASSWORD ){
         return res.status(403).json({
             success: false,
             message: `${statusCode[403]}, bad username or password`
@@ -30,19 +36,21 @@ router.post('/signin', (req, res) => {
     }
     req.session.username = username;
     req.session.password = password;
-    return res.status(200).json({
-        success: true,
-        message: 'Login successful'
-    })    
+    res.sendFile('logged.html', {root: oneStepBack})
+    // return res.status(200).json({
+    //     success: true,
+    //     message: 'Login successful'
+    // })    
 })
 
 router.post('/logout', (req, res) => {
     req.session.destroy(err => {
         if(!err) {
-            return res.status(200).json({
-                success: true,
-                message: 'Session destroyed'
-            })
+            return res.sendFile('index.html', {root: oneStepBack})
+            // return res.status(200).json({
+            //     success: true,
+            //     message: 'Session destroyed'
+            // })
         }
         res.status(500).json({
             success: false,
